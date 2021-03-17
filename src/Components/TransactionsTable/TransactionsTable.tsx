@@ -1,15 +1,15 @@
 import React from 'react'
+import { api } from '../../services/api'
 import { Container } from './styles'
 
 const TransactionsTable = () => {
     
     React.useEffect(() => {
-        fetch('http://localhost:3000/api/transactions')
-            .then(res => res.json())
-            .then(json => console.log(json))
+        api.get('/transactions')
+            .then(response => console.log(response.data))
     }, [])
 
-    return (
+    return (    
         <Container>
             <table>
                 <thead>
@@ -23,7 +23,7 @@ const TransactionsTable = () => {
                 <tbody>
                     <tr>
                         <td>Desenvolvimento WebSite</td>
-                        <td className="deposit" >R$12.0000</td>
+                        <td className="deposit" >R$12.000</td>
                         <td>Desenvolvimento</td>
                         <td>16/03/2021</td>
                     </tr>
