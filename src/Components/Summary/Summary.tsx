@@ -1,11 +1,29 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Container } from './styles'
 
 import incomeImg from '../../assets/income.svg'
 import outcomeImg from '../../assets/outcome.svg'
 import totalImg from '../../assets/total.svg'
+import { TransactionsContext } from '../../TransactionContext'
 
 const Summary = () => {
+    const { transactions } = useContext(TransactionsContext)
+
+    console.log(transactions)
+
+    const incomes = transactions
+        .filter(transaction => transaction.type === 'deposit')
+        .reduce((acm, transaction) => acm + transaction.amount , 0)
+
+    const outcomes = transactions
+        .filter(transaction => transaction.type === 'withdrawn')
+        .reduce((acm, transaction) => acm + transaction.amount , 0)
+
+    const total = incomes - outcomes
+    // console.log(incomes)
+    
+
+
     return (
         <Container>
             <div>
@@ -13,21 +31,21 @@ const Summary = () => {
                     <p>Entradas</p>
                     <img src={incomeImg} alt="Entradas"/>
                 </header>
-                <strong>R$1000,00</strong>
+                <strong>{incomes.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</strong>
             </div>
             <div>
                 <header>
                     <p>Saídas</p>
                     <img src={outcomeImg} alt="Saidas"/>
                 </header>
-                <strong>R$500,00</strong>
+                <strong>{outcomes.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</strong>
             </div>
             <div>
                 <header>
                     <p>Total</p>
                     <img src={totalImg} alt="Total"/>
                 </header>
-                <strong>R$500,00</strong>
+                <strong>{total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</strong>
             </div>
         </Container>
     )
